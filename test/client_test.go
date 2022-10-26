@@ -1,5 +1,15 @@
 package main
 
+import (
+	"context"
+	"fmt"
+	"k8s.io/client-go/kubernetes"
+	"k8s.io/client-go/rest"
+	"log"
+	"strings"
+	"testing"
+)
+
 // 本地测试，所以手工搞了一个请求
 var body string =`
 {
@@ -12,7 +22,7 @@ var body string =`
     "name": "mypod",
     "namespace": "default",
     "operation": "CREATE",
-    "object": {"apiVersion":"v1","kind":"Pod","metadata":{"name":"shenyi","namespace":"default"}},
+    "object": {"apiVersion":"v1","kind":"Pod","metadata":{"name":"aaa","namespace":"default"}},
     "userInfo": {
       "username": "admin",
       "uid": "014fbff9a07c",
@@ -25,17 +35,17 @@ var body string =`
   }
 }
 `
-//func main() {
-//	mainConfig:=&rest.Config{
-//		Host:"http://localhost:8080",
-//	}
-//	c,err:=kubernetes.NewForConfig(mainConfig)
-//	if err!=nil{
-//		log.Fatal(err)
-//	}
-//	result:=c.AdmissionregistrationV1().RESTClient().Post().Body(strings.NewReader(body)).
-//		Do(context.Background())
-//	b,_:=result.Raw()
-//	fmt.Println(string(b))
-//
-//}
+func TestClient(t *testing.T) {
+	mainConfig:=&rest.Config{
+		Host:"http://localhost:8080",
+	}
+	c, err := kubernetes.NewForConfig(mainConfig)
+	if err != nil{
+		log.Fatal(err)
+	}
+	result := c.AdmissionregistrationV1().RESTClient().Post().Body(strings.NewReader(body)).
+		Do(context.Background())
+	b,_ := result.Raw()
+	fmt.Println(string(b))
+
+}
