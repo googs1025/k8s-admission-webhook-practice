@@ -23,7 +23,7 @@ func main() {
 			}
 		}
 		//第二步
-		reqAdmissionReview := v1.AdmissionReview{} //请求内容
+		reqAdmissionReview := v1.AdmissionReview{} //请求
 		rspAdmissionReview := v1.AdmissionReview{ //响应 ---只构建了一部分
 			TypeMeta: metaV1.TypeMeta{
 				Kind:       "AdmissionReview",
@@ -31,7 +31,7 @@ func main() {
 			},
 		}
 		//第三步。 把body decode 成对象
-		deserializer := src.Codecs.UniversalDeserializer() // 官方代码，直接用 https://github.com/kubernetes/kubernetes/blob/release-1.21/test/images/agnhost/webhook/scheme.go
+		deserializer := src.Codecs.UniversalDeserializer()
 		if _, _, err := deserializer.Decode(body, nil, &reqAdmissionReview); err != nil {
 			klog.Error(err)
 			rspAdmissionReview.Response = src.ToV1AdmissionResponse(err)
@@ -48,10 +48,10 @@ func main() {
 			}
 		}
 
-		w.Write(respBytes)
+
 	})
 
-	tlsConfig:=src.Config{
+	tlsConfig := src.Config{
 		CertFile:"/etc/webhook/certs/tls.crt",
 		KeyFile:"/etc/webhook/certs/tls.key",
 	}

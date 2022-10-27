@@ -13,10 +13,10 @@ spec:
       labels:
         app: myhook
     spec:
-      nodeName: jtthink4
+      nodeName: vm-0-12-centos
       containers:
         - name: myhook
-          image: alpine:3.12
+          image: alpine:3.15
           imagePullPolicy: IfNotPresent
           command: ["/app/myhook"]
           volumeMounts:
@@ -30,7 +30,7 @@ spec:
       volumes:
         - name: app
           hostPath:
-            path: /home/shenyi/app
+            path: /root/try/app
         - name: hooktls
           secret:
             secretName: myhook
