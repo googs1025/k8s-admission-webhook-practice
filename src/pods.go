@@ -49,6 +49,7 @@ func AdmitPods(ar v1.AdmissionReview) *v1.AdmissionResponse {
 	return &reviewResponse
 }
 
+// TODO: 不要用str写死，应该用struct 然后marshal
 // patchContainerImage 实现准入时，使用patch方法替换image，外加注入一个initContainer
 func patchContainerImage() []byte {
 	str := `[
