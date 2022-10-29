@@ -13,7 +13,7 @@ spec:
       labels:
         app: myhook
     spec:
-      nodeName: vm-0-12-centos
+      nodeName: vm-0-12-centos # 记得如果镜像在特定节点上，就需要加入node！
       containers:
         - name: myhook
           image: alpine:3.15

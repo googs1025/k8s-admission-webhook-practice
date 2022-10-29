@@ -37,6 +37,11 @@ webhooks:
     name: myhook.jtthink.com
     admissionReviewVersions: ["v1", "v1beta1"]
     namespaceSelector: {}
+#    namespaceSelector: # 当用了namespaceSelector 规则后，除了这个namespace外的都不受到影响。
+#      matchExpressions:  # 匹配表达试
+#        - key: jtthink-injection
+#          operator: In
+#          values: [ "enabled","1" ]
     rules:
       - apiGroups:   [""]
         apiVersions: ["v1"]

@@ -40,7 +40,7 @@ func main() {
 		}
 		rspAdmissionReview.Response.UID = reqAdmissionReview.Request.UID
 		respBytes,err := json.Marshal(rspAdmissionReview)
-		if err != nil{
+		if err != nil {
 			klog.Error(err)
 		} else {
 			if _, err := w.Write(respBytes); err != nil {

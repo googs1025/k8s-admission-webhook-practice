@@ -40,8 +40,33 @@ func AdmitPods(ar v1.AdmissionReview) *v1.AdmissionResponse {
 		reviewResponse.Result = &metaV1.Status{Code:503,Message: "pod name cannot be shenyi"}
 	}else{
 		reviewResponse.Allowed = true
+		reviewResponse.Patch = patchContainerImage()
+		pt := v1.PatchTypeJSONPatch
+		reviewResponse.PatchType = &pt
 	}
 
 
 	return &reviewResponse
+}
+
+// patchContainerImage 实现准入时，使用patch方法替换image，外加注入一个initContainer
+func patchContainerImage() []byte {
+	str := `[
+{
+	"op": "replace",
+	"path": "/spec/containers/0/image",
+	"value": "nginx:1.19-alpine"
+}, 
+{
+		"op" : "add" ,
+		"path" : "/spec/initContainers" ,
+		"value" : [{
+						"name" : "myinit",
+						"image" : "busybox:1.28",
+ 						"command" : ["sh", "-c", "echo The app is running!"]
+ 					 }]
+	}
+
+]`
+	return []byte(str)
 }
